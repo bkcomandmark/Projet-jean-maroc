@@ -1,0 +1,316 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site, zones, whatsappLink, telLink } from '../config/site';
+import { services } from '../data/services';
+import { offres } from '../data/offres';
+
+const usages = [
+  { v: 'airbnb', l: 'Location courte durée (Airbnb, Booking)' },
+  { v: 'longue-duree', l: 'Location longue durée' },
+  { v: 'secondaire', l: 'Résidence secondaire / vacances' },
+  { v: 'principale', l: 'Résidence principale' },
+  { v: 'vente', l: 'Préparation à la vente' },
+];
+const types = ['Appartement', 'Studio', 'Villa', 'Maison', 'Riad', 'Local commercial', 'Autre'];
+---
+<Base
+  title="Devis gratuit — rénovation à Martil, Tétouan, Tanger"
+  description="Demandez un devis gratuit à Jean Rénovation : décrivez votre besoin en 2 minutes, ajoutez une photo, réponse rapide. Par formulaire, WhatsApp, téléphone ou e-mail."
+  image="keys"
+>
+  <section class="page-hero contact-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span>Devis & contact</nav>
+      <p class="eyebrow">Devis gratuit</p>
+      <h1>Parlez-nous de <em class="accent">votre logement.</em></h1>
+      <p class="lead">Deux minutes suffisent. Plus votre description est précise, plus le devis le sera. Jean vous répond personnellement — {site.responseTime.toLowerCase()}.</p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container contact">
+      <form class="form" name="devis" method="POST" action="/merci/" data-netlify="true" netlify-honeypot="adresse-web" enctype="multipart/form-data" data-form>
+        <input type="hidden" name="form-name" value="devis" />
+        <p class="sr-only"><label>Ne pas remplir : <input name="adresse-web" tabindex="-1" autocomplete="off" /></label></p>
+
+        <ol class="progress" aria-hidden="true" data-progress>
+          <li class="is-active"><span>1</span>Votre besoin</li>
+          <li><span>2</span>Le logement</li>
+          <li><span>3</span>Vos coordonnées</li>
+        </ol>
+
+        <!-- ÉTAPE 1 -->
+        <fieldset class="step" data-step="1">
+          <legend>1. De quoi avez-vous besoin ?</legend>
+          <p class="hint">Plusieurs choix possibles.</p>
+          <div class="chips">
+            {services.map((s) => (
+              <label class="chip"><input type="checkbox" name="prestations[]" value={s.title} data-slug={s.slug} /><span>{s.title}</span></label>
+            ))}
+            <label class="chip"><input type="checkbox" name="prestations[]" value="Supervision de mes artisans" /><span>Supervision de mes artisans</span></label>
+            <label class="chip"><input type="checkbox" name="prestations[]" value="Je ne sais pas encore" /><span>Je ne sais pas encore</span></label>
+          </div>
+
+          <label class="field">
+            <span>Une formule vous intéresse ? <small>(facultatif)</small></span>
+            <select name="formule" data-formule>
+              <option value="">— Pas de formule particulière —</option>
+              {offres.map((o) => <option value={o.name} data-slug={o.slug}>{o.name}</option>)}
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Décrivez votre besoin *</span>
+            <textarea name="description" rows="6" required minlength="10" placeholder="Ex. : Appartement de 80 m² à Martil loué sur Airbnb. Les joints de la douche sont noirs, la peinture du salon s’écaille et une chasse d’eau fuit. J’aimerais que tout soit prêt pour juin."></textarea>
+          </label>
+
+          <label class="field">
+            <span>Une photo du logement ou du problème <small>(facultatif, 8 Mo max)</small></span>
+            <input type="file" name="photo" accept="image/*" />
+            <small class="hint">Vous pourrez envoyer d’autres photos et vidéos sur WhatsApp.</small>
+          </label>
+
+          <div class="nav-btns"><button type="button" class="btn" data-next>Continuer <Icon name="arrow" /></button></div>
+        </fieldset>
+
+        <!-- ÉTAPE 2 -->
+        <fieldset class="step" data-step="2">
+          <legend>2. Parlez-nous du logement</legend>
+          <div class="row2">
+            <label class="field">
+              <span>Ville *</span>
+              <select name="ville" required>
+                <option value="">Choisir…</option>
+                {zones.map((z) => <option>{z.name}</option>)}
+                <option>Autre (préciser dans la description)</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Type de bien *</span>
+              <select name="type-de-bien" required>
+                <option value="">Choisir…</option>
+                {types.map((t) => <option>{t}</option>)}
+              </select>
+            </label>
+          </div>
+
+          <div class="field">
+            <span class="label">Utilisation du logement</span>
+            <div class="chips">
+              {usages.map((u) => (
+                <label class="chip"><input type="radio" name="usage" value={u.l} data-usage={u.v} /><span>{u.l}</span></label>
+              ))}
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label">Où vous trouvez-vous ? *</span>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="situation" value="Je suis au Maroc, sur place" required /><span>Je suis au Maroc, sur place</span></label>
+              <label class="chip"><input type="radio" name="situation" value="Je vis à l’étranger (suivi à distance)" data-etranger /><span>Je vis à l’étranger — suivi à distance</span></label>
+            </div>
+          </div>
+
+          <div class="row2">
+            <label class="field">
+              <span>Délai souhaité</span>
+              <select name="delai">
+                <option>Dès que possible</option>
+                <option>Dans le mois</option>
+                <option>D’ici 1 à 3 mois</option>
+                <option>Avant la saison d’été</option>
+                <option>Pas pressé, je me renseigne</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Budget indicatif <small>(facultatif)</small></span>
+              <select name="budget">
+                <option value="">Je ne sais pas</option>
+                <option>Moins de 10 000 MAD</option>
+                <option>10 000 – 30 000 MAD</option>
+                <option>30 000 – 80 000 MAD</option>
+                <option>Plus de 80 000 MAD</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="nav-btns">
+            <button type="button" class="btn btn--ghost" data-prev>Retour</button>
+            <button type="button" class="btn" data-next>Continuer <Icon name="arrow" /></button>
+          </div>
+        </fieldset>
+
+        <!-- ÉTAPE 3 -->
+        <fieldset class="step" data-step="3">
+          <legend>3. Comment vous recontacter ?</legend>
+          <div class="row2">
+            <label class="field"><span>Nom et prénom *</span><input type="text" name="nom" required autocomplete="name" /></label>
+            <label class="field"><span>Téléphone / WhatsApp *</span><input type="tel" name="telephone" required autocomplete="tel" placeholder="+33 … ou +212 …" /></label>
+          </div>
+          <div class="row2">
+            <label class="field"><span>E-mail</span><input type="email" name="email" autocomplete="email" /></label>
+            <label class="field"><span>Pays de résidence</span><input type="text" name="pays" autocomplete="country-name" placeholder="France, Belgique, Maroc…" /></label>
+          </div>
+          <div class="field">
+            <span class="label">Vous préférez être contacté par</span>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="contact-prefere" value="WhatsApp" checked /><span>WhatsApp</span></label>
+              <label class="chip"><input type="radio" name="contact-prefere" value="Téléphone" /><span>Téléphone</span></label>
+              <label class="chip"><input type="radio" name="contact-prefere" value="E-mail" /><span>E-mail</span></label>
+            </div>
+          </div>
+          <label class="consent"><input type="checkbox" name="consentement" value="oui" required /> <span>J’accepte que mes informations soient utilisées pour répondre à ma demande de devis. *</span></label>
+
+          <div class="nav-btns">
+            <button type="button" class="btn btn--ghost" data-prev>Retour</button>
+            <button type="submit" class="btn">Envoyer ma demande</button>
+          </div>
+          <div class="wa-alt">
+            <span>ou</span>
+            <button type="button" class="btn btn--wa" data-wa><Icon name="whatsapp" /> Envoyer ma demande sur WhatsApp</button>
+          </div>
+        </fieldset>
+      </form>
+
+      <aside class="aside">
+        <div class="aside__card">
+          <h2>Contact direct</h2>
+          <a class="aside__wa btn btn--wa" href={whatsappLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+          <ul>
+            <li><Icon name="phone" size={20} /><div><small>Maroc</small><a href={telLink(site.phoneMaroc)}>{site.phoneMaroc}</a></div></li>
+            <li><Icon name="phone" size={20} /><div><small>France</small><a href={telLink(site.phoneFrance)}>{site.phoneFrance}</a></div></li>
+            <li><Icon name="mail" size={20} /><div><small>E-mail</small><a href={`mailto:${site.email}`}>{site.email}</a></div></li>
+            <li><Icon name="clock" size={20} /><div><small>Disponibilités</small>{site.hours}</div></li>
+          </ul>
+        </div>
+        <div class="aside__card aside__card--soft">
+          <h3>Ce qui se passe ensuite</h3>
+          <ol>
+            <li>Jean lit votre demande et vous recontacte.</li>
+            <li>Il visite le logement (ou étudie vos photos et vidéos).</li>
+            <li>Vous recevez un devis détaillé, gratuit, sans engagement.</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-hero { border-bottom: 0; padding-bottom: 0; }
+  .contact { display: grid; gap: clamp(28px, 4vw, 48px); align-items: start; }
+  @media (min-width: 1000px) { .contact { grid-template-columns: 1fr 360px; } .aside { position: sticky; top: 100px; } }
+
+  .form { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(22px, 4vw, 44px); box-shadow: var(--shadow); }
+  .progress { list-style: none; padding: 0; margin: 0 0 32px; display: none; gap: 8px; }
+  .js-steps .progress { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .progress li { display: flex; align-items: center; gap: 10px; font-size: .86rem; font-weight: 600; color: var(--muted); padding-bottom: 12px; border-bottom: 3px solid var(--bg-2); }
+  .progress li span { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--bg-2); font-size: .82rem; flex: none; }
+  .progress li.is-active, .progress li.is-done { color: var(--ink); border-color: var(--terra); }
+  .progress li.is-active span, .progress li.is-done span { background: var(--terra); color: #fff; }
+  @media (max-width: 560px) { .progress li { font-size: 0; gap: 0; justify-content: center; } }
+
+  .step { border: 0; padding: 0; margin: 0 0 36px; min-width: 0; }
+  .js-steps .step { display: none; margin: 0; }
+  .js-steps .step.is-active { display: block; animation: fade .35s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  legend { font: 500 clamp(1.4rem, 2.4vw, 1.8rem)/1.2 var(--serif); padding: 0; margin-bottom: 6px; }
+  .hint { color: var(--muted); font-size: .88rem; margin: 0 0 14px; display: block; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .chip { position: relative; cursor: pointer; }
+  .chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .chip span { display: inline-block; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(27,31,36,.2); font-size: .92rem; transition: all .15s; background: #fff; }
+  .chip:hover span { border-color: var(--terra); }
+  .chip input:checked + span { background: var(--terra); border-color: var(--terra); color: #fff; }
+  .chip input:focus-visible + span { outline: 2px solid var(--terra); outline-offset: 2px; }
+
+  .field { display: block; margin-top: 22px; }
+  .field > span, .field .label { display: block; font-weight: 600; font-size: .94rem; margin-bottom: 8px; }
+  .field small { font-weight: 400; color: var(--muted); }
+  input[type='text'], input[type='tel'], input[type='email'], select, textarea {
+    width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--bg); border: 1px solid rgba(27,31,36,.18); border-radius: 12px; padding: 13px 15px; transition: border-color .15s, box-shadow .15s;
+  }
+  textarea { resize: vertical; min-height: 140px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--terra); box-shadow: 0 0 0 3px rgba(180,83,42,.15); background: #fff; }
+  input[type='file'] { font-size: .92rem; }
+  .row2 { display: grid; gap: 0 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .consent { display: flex; gap: 12px; align-items: flex-start; margin-top: 24px; font-size: .9rem; color: var(--ink-2); }
+  .consent input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--terra); flex: none; }
+  .nav-btns { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+  .nav-btns .btn:only-child { margin-left: auto; }
+  .wa-alt { display: flex; align-items: center; gap: 14px; margin-top: 18px; flex-wrap: wrap; color: var(--muted); font-size: .9rem; }
+  @media (max-width: 520px) { .nav-btns .btn, .wa-alt .btn { width: 100%; } .nav-btns { flex-direction: column-reverse; } }
+
+  .aside { display: grid; gap: 18px; }
+  .aside__card { background: var(--navy); color: #c3ced8; border-radius: var(--radius-lg); padding: 28px; }
+  .aside__card h2 { color: #fff; font-size: 1.5rem; }
+  .aside__wa { width: 100%; margin: 6px 0 20px; }
+  .aside ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; font-size: .94rem; }
+  .aside li { display: flex; gap: 14px; }
+  .aside li :global(svg) { color: #e5a27f; flex: none; margin-top: 3px; }
+  .aside small { display: block; color: #8fa3b5; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+  .aside a { color: #fff; text-decoration: none; }
+  .aside__card--soft { background: var(--terra-soft); color: var(--ink-2); }
+  .aside__card--soft h3 { font-size: 1.2rem; }
+  .aside__card--soft ol { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; font-size: .94rem; }
+</style>
+
+<script>
+  import { whatsappLink } from '../config/site';
+
+  const form = document.querySelector<HTMLFormElement>('[data-form]');
+  if (form) {
+    const steps = Array.from(form.querySelectorAll<HTMLFieldSetElement>('[data-step]'));
+    const bars = Array.from(form.querySelectorAll('[data-progress] li'));
+    let current = 0;
+    form.classList.add('js-steps');
+
+    const show = (i: number) => {
+      current = i;
+      steps.forEach((s, k) => s.classList.toggle('is-active', k === i));
+      bars.forEach((b, k) => { b.classList.toggle('is-active', k === i); b.classList.toggle('is-done', k < i); });
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    const valid = (i: number) => {
+      const fields = Array.from(steps[i].querySelectorAll<HTMLInputElement>('input, select, textarea'));
+      for (const f of fields) { if (!f.checkValidity()) { f.reportValidity(); return false; } }
+      return true;
+    };
+    form.querySelectorAll('[data-next]').forEach((b) => b.addEventListener('click', () => { if (valid(current)) show(current + 1); }));
+    form.querySelectorAll('[data-prev]').forEach((b) => b.addEventListener('click', () => show(current - 1)));
+    show(0);
+    window.scrollTo(0, 0);
+
+    // Pré-remplissage depuis l'URL (?prestation=joints, ?formule=avant-saison, ?usage=airbnb, ?situation=etranger)
+    const q = new URLSearchParams(location.search);
+    const p = q.get('prestation');
+    if (p) form.querySelector<HTMLInputElement>(`input[data-slug="${p}"]`)?.setAttribute('checked', '');
+    const fo = q.get('formule');
+    if (fo) { const opt = form.querySelector<HTMLOptionElement>(`[data-formule] option[data-slug="${fo}"]`); if (opt) opt.selected = true; }
+    const u = q.get('usage');
+    if (u) form.querySelector<HTMLInputElement>(`input[data-usage="${u}"]`)?.setAttribute('checked', '');
+    if (q.get('situation') === 'etranger') form.querySelector<HTMLInputElement>('[data-etranger]')?.setAttribute('checked', '');
+
+    // Envoi alternatif via WhatsApp
+    form.querySelector('[data-wa]')?.addEventListener('click', () => {
+      const d = new FormData(form);
+      const line = (label: string, v: FormDataEntryValue | null | string) => (v ? `• ${label} : ${v}\n` : '');
+      const text =
+        `Bonjour Jean, voici ma demande de devis :\n\n` +
+        line('Prestations', d.getAll('prestations[]').join(', ')) +
+        line('Formule', d.get('formule')) +
+        line('Ville', d.get('ville')) +
+        line('Type de bien', d.get('type-de-bien')) +
+        line('Utilisation', d.get('usage')) +
+        line('Situation', d.get('situation')) +
+        line('Délai', d.get('delai')) +
+        line('Budget', d.get('budget')) +
+        `\n${d.get('description') || ''}\n\n` +
+        line('Nom', d.get('nom')) +
+        line('Pays', d.get('pays'));
+      window.open(whatsappLink(text), '_blank', 'noopener');
+    });
+  }
+</script>

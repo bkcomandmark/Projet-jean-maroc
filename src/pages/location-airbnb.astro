@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import Picture from '../components/Picture.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { offres } from '../data/offres';
+import { whatsappLink } from '../config/site';
+
+const why = [
+  { icon: 'star', title: 'De meilleurs avis', text: 'Propreté, état général, salle de bain : ce sont les critères les plus commentés. Des finitions impeccables, ce sont des étoiles en plus.' },
+  { icon: 'eye', title: 'Des photos qui disent vrai', text: 'Un logement réellement conforme à ses photos évite les déceptions, les litiges et les remboursements.' },
+  { icon: 'clock', title: 'Moins de réparations à répétition', text: 'Un joint bien fait dure des années. Un joint bâclé se refait chaque saison.' },
+  { icon: 'globe', title: 'Une clientèle exigeante', text: 'Vos voyageurs, souvent de la diaspora européenne, comparent avec ce qu’ils connaissent en France ou en Belgique.' },
+];
+---
+<Base
+  title="Rénovation pour locations Airbnb et saisonnières — Martil, Tétouan, Tanger"
+  description="Formules de remise en état et d'entretien pour propriétaires de logements Airbnb, Booking et locations longue durée dans le nord du Maroc. Finitions européennes, suivi à distance, devis gratuit."
+  image="airbnb"
+>
+  <section class="page-hero">
+    <div class="container split">
+      <div>
+        <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span>Location & Airbnb</nav>
+        <p class="eyebrow">Propriétaires qui louent</p>
+        <h1>Un logement impeccable, <em class="accent">des voyageurs conquis.</em></h1>
+        <p class="lead">Location courte durée sur Airbnb ou Booking, location saisonnière ou à l’année : l’état de votre logement fait directement vos avis et vos revenus. Jean vous propose des formules pensées pour les propriétaires qui louent, avec des finitions aux standards européens.</p>
+        <div class="btn-row">
+          <a class="btn" href="#formules">Voir les formules</a>
+          <a class="btn btn--ghost" href="/contact/?usage=airbnb">Demander un devis</a>
+        </div>
+      </div>
+      <div class="photo hero-img"><Picture name="terrace" ratio={0.95} eager /></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Pourquoi c’est rentable</p>
+        <h2>Les finitions ne sont pas un luxe.<br /><em class="accent">C’est un investissement.</em></h2>
+      </div>
+      <div class="grid grid-4">
+        {why.map((w) => (
+          <div class="card reveal why">
+            <span class="why__icon"><Icon name={w.icon} size={24} /></span>
+            <h3>{w.title}</h3>
+            <p>{w.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="formules">
+    <div class="container">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Les formules</p>
+        <h2>Quatre formules, un même niveau d’exigence.</h2>
+        <p class="lead">Chaque formule est adaptée à votre logement et fait l’objet d’un devis personnalisé, gratuit et sans engagement.</p>
+      </div>
+      <div class="formules">
+        {offres.map((o, i) => (
+          <article id={o.slug} class:list={['formule', 'reveal', { 'formule--hl': o.highlight }]}>
+            {o.highlight && <span class="formule__tag">La plus demandée</span>}
+            <span class="formule__n">Formule {i + 1}</span>
+            <h3>{o.name}</h3>
+            <p class="formule__tagline">{o.tagline}</p>
+            <p class="formule__who">{o.forWho}</p>
+            <ul class="checklist">{o.includes.map((it) => <li>{it}</li>)}</ul>
+            <div class="formule__foot">
+              <span class="formule__price">Sur devis</span>
+              <a class:list={['btn', { 'btn--ghost': !o.highlight }]} href={`/contact/?formule=${o.slug}`}>Choisir cette formule</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container split">
+      <div class="photo reveal conc-img"><Picture name="keys" ratio={0.8} /></div>
+      <div class="reveal">
+        <p class="eyebrow">Conciergeries & gestionnaires</p>
+        <h2>Vous gérez plusieurs logements ?</h2>
+        <p class="lead">Jean devient votre artisan de référence : un seul interlocuteur fiable pour la maintenance, les remises en état entre deux locataires et les rénovations de vos biens en gestion.</p>
+        <ul class="checklist">
+          <li>Interventions coordonnées avec vos plannings de réservation</li>
+          <li>Comptes rendus photo à transmettre aux propriétaires</li>
+          <li>Partenariat sur la durée, interlocuteur unique</li>
+        </ul>
+        <div class="btn-row" style="margin-top:28px">
+          <a class="btn btn--light" href={whatsappLink('Bonjour Jean, je gère des logements en location et je souhaite discuter d’un partenariat.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Discuter d’un partenariat</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Préparez la prochaine saison dès maintenant." text="Les meilleurs créneaux partent vite avant l’été. Décrivez votre logement, Jean vous propose un planning et un devis." />
+</Base>
+
+<style>
+  .hero-img { aspect-ratio: 1 / 0.95; }
+  .page-hero .lead { margin-bottom: 30px; }
+  .why h3 { font-size: 1.15rem; margin-top: 16px; }
+  .why p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .why__icon { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--terra-soft); color: var(--terra); }
+  .formules { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); align-items: stretch; }
+  .formule { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 30px 26px 26px; scroll-margin-top: 100px; }
+  .formule--hl { border: 2px solid var(--terra); box-shadow: var(--shadow); }
+  .formule__tag { position: absolute; top: -13px; left: 24px; background: var(--terra); color: #fff; font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; }
+  .formule__n { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+  .formule h3 { font-size: 1.45rem; margin: 6px 0 4px; }
+  .formule__tagline { font: italic 400 1.05rem/1.4 var(--serif); color: var(--terra); margin-bottom: 12px; }
+  .formule__who { font-size: .94rem; color: var(--muted); }
+  .formule .checklist { font-size: .94rem; gap: 10px; margin-bottom: 24px; }
+  .formule__foot { margin-top: auto; display: grid; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .formule__price { font: 500 1.2rem/1 var(--serif); }
+  .formule__foot .btn { width: 100%; white-space: normal; text-align: center; }
+  .conc-img { aspect-ratio: 1 / 0.8; }
+</style>

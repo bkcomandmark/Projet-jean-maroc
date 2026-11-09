@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import Picture from '../components/Picture.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const cities = [
+  { name: 'Martil', text: 'La base de Jean. Appartements en front de mer, résidences récentes et maisons de vacances : intervention rapide, y compris pour les petites urgences.' },
+  { name: 'Tétouan', text: 'Centre-ville, Médina, quartiers résidentiels : appartements, maisons de ville et riads, à quelques minutes de Martil.' },
+  { name: "M'diq & Cabo Negro", text: 'Résidences balnéaires, villas et appartements de standing, très demandés en location saisonnière.' },
+  { name: 'Fnideq & Restinga', text: 'Le littoral nord jusqu’à la frontière de Sebta, avec ses nombreuses résidences secondaires.' },
+  { name: 'Tanger', text: 'Malabata, Achakar, centre-ville, nouvelles résidences : une forte communauté étrangère et un marché locatif en plein essor.' },
+];
+---
+<Base
+  title="Zones d'intervention : Martil, Tétouan, M'diq, Cabo Negro, Fnideq, Tanger"
+  description="Jean Rénovation intervient dans tout le nord du Maroc : Martil, Tétouan, M'diq, Cabo Negro, Fnideq et Tanger. Rénovation, remise en état et finitions pour logements en location."
+  image="tetouan"
+>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span>Zones d’intervention</nav>
+      <p class="eyebrow">Zones d’intervention</p>
+      <h1>Toute la côte nord, <em class="accent">de Martil à Tanger.</em></h1>
+      <p class="lead">Basé à Martil, Jean intervient dans toute la région Tanger-Tétouan, là où se concentrent les résidences secondaires des familles de la diaspora et les logements en location saisonnière.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2">
+        <div class="photo reveal z-img"><Picture name="tetouan" ratio={0.7} /></div>
+        <div class="photo reveal z-img"><Picture name="tanger" ratio={0.7} /></div>
+      </div>
+      <div class="cities">
+        {cities.map((c) => (
+          <article class="city reveal">
+            <Icon name="pin" size={22} />
+            <div>
+              <h2>Rénovation à {c.name}</h2>
+              <p>{c.text}</p>
+              <p class="city__svc">Peinture · Joints · Carrelage · Plomberie · Salles de bain · Étanchéité · Façades</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="note">Votre bien se trouve ailleurs dans le nord du Maroc (Chefchaouen, Asilah, Larache…) ? <a href="/contact/">Contactez Jean</a>, on en discute.</p>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .z-img { aspect-ratio: 16 / 11; }
+  .cities { margin-top: clamp(40px, 6vw, 64px); display: grid; gap: 0; }
+  .city { display: flex; gap: 18px; padding-block: 26px; border-bottom: 1px solid var(--line); }
+  .city :global(svg) { color: var(--terra); flex: none; margin-top: 8px; }
+  .city h2 { font-size: clamp(1.4rem, 2.4vw, 1.8rem); margin-bottom: 6px; }
+  .city p { margin: 0; color: var(--ink-2); max-width: 70ch; }
+  .city .city__svc { margin-top: 8px; font-size: .86rem; color: var(--muted); }
+  .note { margin-top: 32px; color: var(--ink-2); }
+  .note a { color: var(--terra); }
+</style>

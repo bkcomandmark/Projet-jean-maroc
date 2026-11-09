@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Picture from '../components/Picture.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../config/site';
+
+const values = [
+  { title: 'Minutie', text: 'Chaque angle, chaque joint, chaque raccord est vérifié. Le détail n’est pas un détail.' },
+  { title: 'Honnêteté', text: 'Jean vous dit ce qui est nécessaire, et ce qui ne l’est pas. Un devis clair, sans surprise.' },
+  { title: 'Propreté', text: 'Un chantier protégé, rangé et nettoyé. Vous récupérez un logement prêt à vivre.' },
+  { title: 'Transmission', text: 'Former les artisans locaux aux méthodes européennes, pour élever le niveau de toute la région.' },
+];
+
+const quotes = [
+  '« La finition, c’est la signature de l’artisan. Je signe chacun de mes chantiers. »',
+  '« Un mur se prépare pendant des heures pour être peint en quelques minutes. C’est là que tout se joue. »',
+  '« Un joint bien fait, personne ne le regarde. Un joint mal fait, tout le monde le voit. »',
+];
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.founder,
+  jobTitle: 'Artisan rénovateur, façadier',
+  worksFor: { '@id': new URL('/#entreprise', Astro.site).href },
+  homeLocation: { '@type': 'Place', name: `${site.city}, Maroc` },
+};
+---
+<Base
+  title={`Qui est Jean ? Artisan façadier, ${site.experienceYears} ans d'expérience`}
+  description={`Jean, artisan français installé à ${site.city}, ${site.experienceYears} ans d'expérience en façade, peinture, enduits et carrelage. Son engagement : des finitions irréprochables au Maroc.`}
+  image="tools"
+  schema={person}
+>
+  <section class="page-hero">
+    <div class="container split">
+      <div>
+        <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span>Qui est Jean ?</nav>
+        <p class="eyebrow">L’artisan</p>
+        <h1>{site.experienceYears} ans à traquer <em class="accent">le moindre défaut.</em></h1>
+        <p class="lead">Jean a passé trente ans sur les chantiers en France, d’abord comme façadier, puis sur tous les métiers de la finition. Aujourd’hui installé à {site.city}, il met cette exigence au service des propriétaires du nord du Maroc.</p>
+      </div>
+      <div class="photo portrait"><Picture name="jean" ratio={1.2} eager /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow prose reveal">
+      <h2>Un parcours de façadier</h2>
+      <p>Le métier de façadier est l’un des plus exigeants du bâtiment. Une façade se voit de loin et de près, sous toutes les lumières, et ne pardonne aucune approximation. Pendant trente ans, Jean a ravalé, enduit, peint et réparé des façades, puis élargi son savoir-faire à la peinture intérieure, aux joints, au carrelage, à la plomberie et à la rénovation de salles de bain.</p>
+      <p>De ces années, il a gardé une obsession : <strong>la finition</strong>. Une arête bien droite, un joint régulier, une peinture tendue sans reprise, un silicone parfaitement lissé.</p>
+
+      <h2>Pourquoi le Maroc ?</h2>
+      <p>En s’installant à {site.city}, Jean a fait un constat que beaucoup de propriétaires partagent : les logements de la région, notamment ceux mis en location, sont souvent rénovés vite et mal. Joints qui noircissent, peintures qui cloquent, salles de bain qui fuient. Et les propriétaires qui vivent à l’étranger n’ont personne pour vérifier.</p>
+      <p>Il a donc décidé de proposer ce qui manque : <strong>un artisan qui travaille aux standards européens</strong>, qui parle la même langue que ses clients, et qui peut aussi former et encadrer les équipes locales.</p>
+      <blockquote>« Je ne sais pas faire “à peu près”. Soit c’est bien fait, soit je le refais. »</blockquote>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Ses valeurs</p>
+        <h2>Ce qui guide chaque chantier</h2>
+      </div>
+      <div class="grid grid-4">
+        {values.map((v, i) => (
+          <div class="card reveal val">
+            <span class="val__n">0{i + 1}</span>
+            <h3>{v.title}</h3>
+            <p>{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="quotes">
+        {quotes.map((q) => <blockquote class="reveal">{q}<cite>— Jean</cite></blockquote>)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Envie de travailler avec Jean ?" text="Expliquez votre projet, il vous répond personnellement." />
+</Base>
+
+<style>
+  .portrait { aspect-ratio: 1 / 1.15; }
+  .val__n { font: italic 500 1.6rem/1 var(--serif); color: var(--terra); }
+  .val h3 { margin-top: 12px; font-size: 1.25rem; }
+  .val p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .quotes { display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .quotes blockquote { margin: 0; font: italic 400 1.3rem/1.45 var(--serif); color: #fff; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.2); }
+  .quotes cite { display: block; margin-top: 14px; font: normal 600 .88rem/1 var(--sans); color: #e5a27f; }
+</style>

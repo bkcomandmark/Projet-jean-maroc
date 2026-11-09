@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import Picture from '../components/Picture.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, whatsappLink } from '../config/site';
+
+const problems = [
+  'Des devis flous, des délais qui s’allongent, des prix qui changent en cours de route',
+  'Des photos « tout va bien »… et un résultat décevant quand vous arrivez en vacances',
+  'Des finitions bâclées que vous devez faire reprendre à vos frais',
+  'Personne de confiance pour vérifier, payer au bon moment, récupérer les clés',
+];
+
+const services = [
+  { icon: 'key', title: 'Gestion des clés et des accès', text: 'Jean récupère et restitue les clés auprès de vous, d’un proche, du syndic, du gardien ou de votre conciergerie.' },
+  { icon: 'camera', title: 'Photos et vidéos à chaque étape', text: 'Avant, pendant, après. Vous recevez des comptes rendus réguliers sur WhatsApp, et pouvez demander une vidéo en direct.' },
+  { icon: 'users', title: 'Supervision de vos équipes locales', text: 'Vous avez déjà des ouvriers ? Jean contrôle leur travail, corrige les défauts et valide chaque étape avant que vous ne payiez.' },
+  { icon: 'ruler', title: 'Formation aux standards européens', text: 'Jean transmet ses méthodes aux artisans sur place : préparation, joints, planéité, propreté. Le niveau monte, durablement.' },
+  { icon: 'file', title: 'Devis et planning clairs', text: 'Un devis détaillé poste par poste, un planning réaliste, et des points d’étape annoncés à l’avance.' },
+  { icon: 'shield', title: 'Réception de chantier', text: 'Contrôle final pièce par pièce avec liste de réserves, comme sur un chantier en France. Rien n’est livré tant que ce n’est pas parfait.' },
+];
+---
+<Base
+  title="Travaux au Maroc depuis la France : suivi et supervision de chantier"
+  description="Vous vivez en France ou en Europe et possédez un bien à Martil, Tétouan ou Tanger ? Jean suit vos travaux sur place : clés, photos et vidéos, supervision et formation des équipes locales."
+  image="chantier-suivi"
+>
+  <section class="page-hero">
+    <div class="container split">
+      <div>
+        <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span>Propriétaires à distance</nav>
+        <p class="eyebrow">Vous vivez en France ou en Europe</p>
+        <h1>Vos travaux au Maroc, <em class="accent">sous contrôle</em>, à 2 000 km.</h1>
+        <p class="lead">Vous possédez un appartement ou une villa dans le nord du Maroc, mais vous vivez à Paris, Lyon, Bruxelles ou Amsterdam ? Jean devient vos yeux et vos mains sur place. Un Français, qui parle votre langue et partage vos exigences.</p>
+        <div class="btn-row">
+          <a class="btn" href="/contact/?situation=etranger">Confier mon chantier</a>
+          <a class="btn btn--ghost" href={whatsappLink('Bonjour Jean, je vis à l’étranger et je souhaite faire des travaux dans mon logement au Maroc.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+        </div>
+      </div>
+      <div class="photo hero-img"><Picture name="chantier-suivi" ratio={0.95} eager /></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container split">
+      <div class="reveal">
+        <p class="eyebrow">Le problème</p>
+        <h2>Faire des travaux à distance, c’est souvent<br /><em class="accent">payer deux fois.</em></h2>
+        <p class="lead">Beaucoup de propriétaires installés à l’étranger l’ont appris à leurs dépens. Sans personne pour contrôler, les travaux sont trop souvent bâclés.</p>
+      </div>
+      <ul class="pbl reveal">
+        {problems.map((p) => <li><Icon name="close" size={18} /><span>{p}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <p class="eyebrow">La solution</p>
+        <h2>Un artisan de confiance qui veille sur votre bien.</h2>
+        <p class="lead">Jean réalise vos travaux lui-même, ou supervise ceux de vos équipes. Dans les deux cas, vous savez exactement ce qui se passe chez vous.</p>
+      </div>
+      <div class="grid grid-3">
+        {services.map((s) => (
+          <div class="card reveal srv">
+            <span class="srv__icon"><Icon name={s.icon} size={24} /></span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container split">
+      <div class="reveal">
+        <p class="eyebrow">Supervision & formation</p>
+        <h2>Vos ouvriers travaillent.<br /><em style="color:#e5a27f">Jean veille au résultat.</em></h2>
+        <p class="lead">Vous avez déjà une équipe, un maçon, un peintre de confiance ? Gardez-les. Jean intervient comme chef de chantier et contrôleur qualité :</p>
+        <ul class="checklist">
+          <li>Il explique ce qui doit être fait et comment, selon les règles de l’art</li>
+          <li>Il contrôle chaque étape : préparation, planéité, joints, finitions</li>
+          <li>Il fait reprendre ce qui ne va pas, avant que ce soit trop tard</li>
+          <li>Il vous confirme quand une étape peut être payée</li>
+          <li>Il forme les artisans à ses techniques, pour des chantiers durablement meilleurs</li>
+        </ul>
+      </div>
+      <figure class="quote reveal">
+        <blockquote>« Je ne viens pas prendre la place des artisans d’ici. Je viens leur montrer ce que j’ai appris en trente ans, pour que le travail soit bien fait. Et le propriétaire, lui, dort tranquille. »</blockquote>
+        <figcaption>— Jean</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow center reveal">
+      <p class="eyebrow">Concrètement</p>
+      <h2>Un exemple de suivi</h2>
+      <div class="timeline">
+        <div><strong>J-15</strong><span>Vous envoyez photos et description. Échange sur WhatsApp ou en visio.</span></div>
+        <div><strong>J-10</strong><span>Jean visite le logement, vous envoie un compte rendu vidéo et un devis détaillé.</span></div>
+        <div><strong>J0</strong><span>Démarrage. Photos « avant » de chaque pièce.</span></div>
+        <div><strong>Chaque jour</strong><span>Point d’avancement en photos, vidéo à la demande.</span></div>
+        <div><strong>Fin</strong><span>Réception pièce par pièce, nettoyage, reportage avant / après, restitution des clés.</span></div>
+      </div>
+      <p class="muted">Délais donnés à titre d’exemple : ils dépendent de chaque projet.</p>
+    </div>
+  </section>
+
+  <CtaBand title={`Confiez votre bien à ${site.founder}.`} text="Où que vous soyez, décrivez votre projet. Jean vous répond et organise une visite du logement." waText="Bonjour Jean, je vis à l’étranger et je souhaite faire des travaux dans mon logement au Maroc." />
+</Base>
+
+<style>
+  .hero-img { aspect-ratio: 1 / 0.95; }
+  .page-hero .lead { margin-bottom: 30px; }
+  .pbl { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .pbl li { display: flex; gap: 14px; align-items: flex-start; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+  .pbl :global(svg) { color: #c0392b; flex: none; margin-top: 4px; }
+  .srv h3 { font-size: 1.15rem; margin-top: 16px; }
+  .srv p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .srv__icon { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: var(--navy); color: #fff; }
+  .quote { margin: 0; padding: clamp(28px, 4vw, 44px); border-radius: var(--radius-lg); background: var(--navy-2); }
+  .quote blockquote { margin: 0 0 16px; font: italic 400 clamp(1.2rem, 2vw, 1.5rem)/1.45 var(--serif); color: #fff; }
+  .quote figcaption { color: #e5a27f; font-weight: 600; }
+  .timeline { margin-top: 32px; text-align: left; display: grid; gap: 0; border-left: 2px solid var(--terra-soft); }
+  .timeline div { position: relative; padding: 0 0 26px 28px; }
+  .timeline div::before { content: ''; position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--terra); }
+  .timeline strong { display: block; font-family: var(--serif); font-size: 1.15rem; }
+  .timeline span { color: var(--ink-2); }
+  .muted { color: var(--muted); font-size: .88rem; }
+</style>

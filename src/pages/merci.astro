@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { whatsappLink, site } from '../config/site';
+---
+<Base title="Demande envoyée" noindex>
+  <section class="section">
+    <div class="container narrow center">
+      <span class="ok"><Icon name="check" size={40} /></span>
+      <h1>Merci, votre demande est bien partie.</h1>
+      <p class="lead">{site.founder} va l’étudier avec attention et revient vers vous rapidement. Vous pouvez dès maintenant lui envoyer d’autres photos ou vidéos sur WhatsApp : cela accélère le devis.</p>
+      <div class="btn-row" style="justify-content:center;margin-top:28px">
+        <a class="btn btn--wa" href={whatsappLink('Bonjour Jean, je viens de vous envoyer une demande de devis via le site. Voici des photos :')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Envoyer des photos</a>
+        <a class="btn btn--ghost" href="/">Retour à l’accueil</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .ok { width: 84px; height: 84px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--terra-soft); color: var(--terra); margin-bottom: 24px; }
+</style>

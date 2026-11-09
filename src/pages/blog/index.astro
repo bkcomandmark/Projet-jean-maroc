@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import Picture from '../../components/Picture.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getCollection } from 'astro:content';
+import type { ImageKey } from '../../data/images';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => +b.data.date - +a.data.date);
+const fmt = (d: Date) => d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base
+  title="Conseils rénovation et location au Maroc — le blog"
+  description="Conseils d'artisan pour propriétaires au Maroc : rénover un logement Airbnb, faire des travaux à distance, entretenir une salle de bain, choisir ses finitions."
+  image="remise-en-etat"
+>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span>Conseils</nav>
+      <p class="eyebrow">Le blog</p>
+      <h1>Les conseils <em class="accent">d’un artisan exigeant.</em></h1>
+      <p class="lead">Rénovation, entretien, location saisonnière, travaux à distance : ce que Jean a appris en trente ans de chantiers, pour vous aider à prendre les bonnes décisions.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">
+        {posts.map((p) => (
+          <a class="post reveal" href={`/blog/${p.id}/`}>
+            <div class="post__img"><Picture name={p.data.image as ImageKey} ratio={0.62} sizes="(min-width: 900px) 33vw, 100vw" /></div>
+            <div class="post__body">
+              <span class="pill">{p.data.category}</span>
+              <h2>{p.data.title}</h2>
+              <p>{p.data.description}</p>
+              <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .post { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; transition: transform .25s, box-shadow .25s; }
+  .post:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .post__img { aspect-ratio: 16 / 10; overflow: hidden; background: var(--sand); }
+  .post__img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .post__body { padding: 22px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+  .post h2 { font-size: 1.3rem; margin: 14px 0 8px; }
+  .post p { color: var(--muted); font-size: .95rem; flex: 1; }
+  .post time { font-size: .84rem; color: var(--muted); }
+  .post .pill { align-self: flex-start; }
+</style>
