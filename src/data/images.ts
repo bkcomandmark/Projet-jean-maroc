@@ -5,15 +5,15 @@
 //  remplacez `id` par le chemin, ex. '/images/jean-chantier.jpg'.
 // ─────────────────────────────────────────────────────────────
 
-export type Img = { id: string; alt: string; credit?: string };
+export type Img = { id: string; alt: string; credit?: string; /** cadrage CSS object-position */ pos?: string };
 
 export const images = {
   hero: { id: 'photo-1728649054288-61f332ee389b', alt: 'Salon lumineux aux murs blancs dans un appartement haut de gamme', credit: 'Clay Banks' },
-  painting: { id: 'photo-1562259949-e8e7689d7828', alt: 'Rouleau de peinture sur un mur fraîchement préparé', credit: 'Theme Photos' },
+  painting: { id: '/images/jean-peinture.webp', alt: 'Jean peint un plafond au rouleau dans un appartement protégé', pos: 'center 25%' },
   joints: { id: 'photo-1523413363574-c30aa1c2a516', alt: 'Jointoiement d’une crédence en carreaux blancs', credit: 'charlesdeluvio' },
-  carrelage: { id: 'photo-1614598632980-35ee54daa5b9', alt: 'Carrelage aux joints parfaitement alignés', credit: 'Grant Ritchie' },
-  plomberie: { id: 'photo-1587093430416-0dc23a0c62c1', alt: 'Robinet moderne sur vasque en céramique blanche', credit: 'Alfred Kenneally' },
-  electricite: { id: 'photo-1635335874521-7987db781153', alt: 'Installation électrique soignée et repérée', credit: 'mostafa mahmoudi' },
+  carrelage: { id: '/images/jean-carrelage.webp', alt: 'Jean pose un carrelage grand format dans une salle de bain', pos: 'center 30%' },
+  plomberie: { id: '/images/jean-plomberie.webp', alt: 'Jean raccorde la plomberie d’un meuble vasque', pos: 'center 40%' },
+  electricite: { id: '/images/jean-electricite.webp', alt: 'Jean installe un interrupteur dans un appartement rénové', pos: 'center 30%' },
   enduits: { id: 'photo-1768839725085-829e6ac7ac26', alt: 'Application d’enduit à la spatule sur un mur intérieur', credit: 'Sasun Bughdaryan' },
   menuiserie: { id: 'photo-1561297331-a9c00b9c2c44', alt: 'Ponçage de précision d’une pièce de menuiserie', credit: 'Paul Trienekens' },
   'salle-de-bain': { id: 'photo-1638799869566-b17fa794c4de', alt: 'Salle de bain moderne avec douche à l’italienne', credit: 'Lotus Design N Print' },
@@ -28,8 +28,8 @@ export const images = {
   'chantier-suivi': { id: 'photo-1618832515490-e181c4794a45', alt: 'Cuisine en cours de rénovation, meubles protégés', credit: 'immo RENOVATION' },
   keys: { id: 'photo-1733244766159-f58f4184fd38', alt: 'Remise des clés d’un appartement rénové', credit: 'Jakub Żerdzicki' },
   'blog-1': { id: 'photo-1668079334321-e51822308968', alt: 'Mur fissuré avant rénovation', credit: 'Krakograff Textures' },
-  // Photo de Jean : à remplacer par '/images/jean.jpg' quand elle sera disponible
-  jean: { id: 'photo-1567361808976-260065224468', alt: 'Jean, artisan rénovateur à Martil' },
+  jean: { id: '/images/jean-portrait.webp', alt: 'Jean, artisan rénovateur à Martil, sur un chantier de peinture', pos: 'center 20%' },
+  'jean-og': { id: '/images/jean-portrait.jpg', alt: 'Jean, artisan rénovateur à Martil' },
 } satisfies Record<string, Img>;
 
 export type ImageKey = keyof typeof images;

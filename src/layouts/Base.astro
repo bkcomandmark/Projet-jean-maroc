@@ -16,10 +16,10 @@ interface Props {
   schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description = site.description, image = 'hero', type = 'website', noindex = false, schema } = Astro.props;
+const { title, description = site.description, image = 'jean-og', type = 'website', noindex = false, schema } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
-const ogImage = imgUrl(image, 1200, 630);
+const ogImage = new URL(imgUrl(image, 1200, 630), Astro.site).href;
 
 const business = {
   '@context': 'https://schema.org',
@@ -28,7 +28,7 @@ const business = {
   name: site.name,
   description: site.description,
   url: new URL('/', Astro.site).href,
-  image: imgUrl('hero', 1200),
+  image: new URL(imgUrl('jean-og'), Astro.site).href,
   telephone: site.phoneMaroc,
   email: site.email,
   priceRange: 'Sur devis',
