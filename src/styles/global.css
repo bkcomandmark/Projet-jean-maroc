@@ -177,3 +177,8 @@ em.accent, .accent { font-style: italic; color: var(--terra); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
 .skip-link { position: absolute; left: -9999px; top: 8px; z-index: 100; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; }
 .skip-link:focus { left: 8px; }
+
+/* Menu mobile ouvert : on bloque le défilement et on masque les boutons flottants */
+html.menu-open { overflow: hidden; }
+html.menu-open .mobile-bar, html.menu-open .wa-float { display: none !important; }
+html.menu-open .hdr::before { background: var(--bg) !important; }
