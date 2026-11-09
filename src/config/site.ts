@@ -47,6 +47,3 @@ export const whatsappLink = (text = 'Bonjour Jean, je souhaite un devis pour mon
 
 export const telLink = (phone: string) => `tel:${phone.replace(/[^+\d]/g, '')}`;
 
-// Images Unsplash : on passe l'identifiant "photo-..." et la largeur voulue.
-export const unsplash = (id: string, w = 1200, h?: number) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}${h ? `&h=${h}` : ''}&q=75`;

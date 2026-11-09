@@ -11,13 +11,13 @@ interface Props {
 }
 const { name, ratio = 0.7, sizes = '(min-width: 900px) 50vw, 100vw', eager = false, class: cls, alt } = Astro.props;
 const img = images[name];
-const local = img.id.startsWith('/');
+const srcset = imgSrcset(name, [480, 800, 1200, 1800], ratio);
 ---
 <img
   class={cls}
   src={imgUrl(name, 1200, Math.round(1200 * ratio))}
-  srcset={local ? undefined : imgSrcset(name, [480, 800, 1200, 1800], ratio)}
-  sizes={local ? undefined : sizes}
+  srcset={srcset}
+  sizes={srcset ? sizes : undefined}
   width="1200"
   height={Math.round(1200 * ratio)}
   alt={alt ?? img.alt}
