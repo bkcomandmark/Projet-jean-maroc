@@ -1,0 +1,81 @@
+---
+import { site, nav, whatsappLink } from '../config/site';
+import Icon from './Icon.astro';
+const path = Astro.url.pathname;
+---
+<header class="hdr" data-header>
+  <div class="container hdr__in">
+    <a href="/" class="logo" aria-label={`${site.name} — accueil`}>
+      <span class="logo__mark" aria-hidden="true">J</span>
+      <span class="logo__txt">
+        <span class="logo__name">{site.name}</span>
+        <span class="logo__sub">Finitions standard européen</span>
+      </span>
+    </a>
+
+    <nav class="nav" id="main-nav" aria-label="Navigation principale">
+      <ul>
+        {nav.map((item) => (
+          <li><a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+      <div class="nav__mobile-cta">
+        <a class="btn" href="/contact/">Demander un devis</a>
+        <a class="btn btn--wa" href={whatsappLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+      </div>
+    </nav>
+
+    <div class="hdr__actions">
+      <a class="btn hdr__cta" href="/contact/">Devis gratuit</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Ouvrir le menu" data-burger>
+        <Icon name="menu" size={26} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr { position: sticky; top: 0; z-index: 50; background: rgba(250, 247, 242, 0.88); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid transparent; transition: border-color .25s, box-shadow .25s; }
+  .hdr.is-scrolled { border-color: var(--line); box-shadow: 0 6px 24px rgba(15, 42, 63, .06); }
+  .hdr__in { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 76px; }
+  .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; flex: none; }
+  .logo__mark { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: #fff; font: italic 500 1.45rem/1 var(--serif); }
+  .logo__txt { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo__name { font: 500 1.28rem/1.1 var(--serif); letter-spacing: -.01em; }
+  .logo__sub { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--terra); font-weight: 600; margin-top: 3px; }
+
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+  .nav a { display: block; padding: 10px 14px; border-radius: 999px; text-decoration: none; font-size: .94rem; font-weight: 500; color: var(--ink-2); transition: background .2s, color .2s; }
+  .nav a:hover { background: var(--bg-2); color: var(--ink); }
+  .nav a[aria-current='page'] { color: var(--terra); }
+  .nav__mobile-cta { display: none; }
+  .hdr__actions { display: flex; align-items: center; gap: 10px; }
+  .hdr__cta { min-height: 46px; padding: 0 22px; }
+  .burger { display: none; background: none; border: 0; padding: 8px; cursor: pointer; color: var(--ink); }
+
+  @media (max-width: 1060px) {
+    .burger { display: inline-flex; }
+    .nav { position: fixed; inset: 76px 0 0; background: var(--bg); padding: 24px var(--gutter) 40px; display: flex; flex-direction: column; justify-content: space-between; transform: translateX(100%); transition: transform .3s ease; overflow-y: auto; }
+    .nav.is-open { transform: none; }
+    .nav ul { flex-direction: column; gap: 0; }
+    .nav a { font: 500 1.6rem/1.2 var(--serif); padding: 16px 0; border-radius: 0; border-bottom: 1px solid var(--line); color: var(--ink); }
+    .nav a:hover { background: none; }
+    .nav__mobile-cta { display: grid; gap: 12px; margin-top: 32px; }
+  }
+  @media (max-width: 480px) { .hdr__cta { display: none; } .logo__sub { font-size: .6rem; } }
+</style>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const nav = document.getElementById('main-nav');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  burger?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('is-open') ?? false;
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+</script>

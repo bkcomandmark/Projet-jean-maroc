@@ -1,0 +1,319 @@
+---
+import Base from '../layouts/Base.astro';
+import Picture from '../components/Picture.astro';
+import Icon from '../components/Icon.astro';
+import { site, zones, whatsappLink } from '../config/site';
+import { services } from '../data/services';
+import { offres } from '../data/offres';
+import { homeFaq } from '../data/faq';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: homeFaq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const pains = [
+  { icon: 'grid', title: 'Des joints noircis, un silicone qui bave', text: 'Le premier détail que remarque un voyageur en entrant dans la salle de bain.' },
+  { icon: 'brush', title: 'Une peinture qui cloque au bout de 3 mois', text: 'Appliquée sans préparation, sur un mur humide ou fissuré.' },
+  { icon: 'eye', title: 'Des travaux bâclés en votre absence', text: 'Vous vivez en France, personne ne vérifie, et vous découvrez le résultat trop tard.' },
+  { icon: 'star', title: 'Des avis qui font chuter vos réservations', text: '« Moins bien que sur les photos. » Une phrase qui coûte cher sur Airbnb.' },
+];
+
+const method = [
+  { title: 'La préparation avant tout', text: 'Rebouchage, ponçage, primaire, protection. Ce qu’on ne voit pas fait ce que l’on voit.' },
+  { title: 'Contrôle à la règle et en lumière rasante', text: 'Les méthodes de vérification des artisans français, à chaque étape.' },
+  { title: 'Des matériaux qui durent', text: 'Produits sélectionnés pour le climat marin et le passage intensif des locataires.' },
+  { title: 'Un chantier propre, rendu nettoyé', text: 'Protection des sols et des meubles, nettoyage de fin de chantier systématique.' },
+];
+
+const steps = [
+  { icon: 'file', title: 'Vous décrivez votre besoin', text: 'Formulaire ou WhatsApp, avec quelques photos. Depuis la France, Bruxelles ou Casablanca.' },
+  { icon: 'pin', title: 'Visite & devis détaillé', text: 'Jean se rend sur place, liste chaque intervention et vous envoie un devis clair.' },
+  { icon: 'key', title: 'Jean récupère les clés', text: 'Auprès de vous, d’un proche, du gardien ou de votre conciergerie.' },
+  { icon: 'video', title: 'Suivi photo & vidéo', text: 'Vous voyez l’avancement à chaque étape, sur WhatsApp, comme si vous y étiez.' },
+  { icon: 'camera', title: 'Livraison & avant / après', text: 'Logement nettoyé, prêt à louer, avec un reportage photo pour votre annonce.' },
+];
+---
+<Base
+  title="Rénovation & finitions haut de gamme à Martil, Tétouan et Tanger"
+  description="Jean, artisan français, 30 ans d'expérience. Rénovation et remise en état de logements en location au Maroc : peinture, joints, carrelage, plomberie, salles de bain. Finitions aux standards européens, suivi à distance."
+  schema={faqSchema}
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__in">
+      <div class="hero__txt">
+        <p class="eyebrow">Artisan français · {zones.map((z) => z.name).slice(0, 2).join(' · ')} · Tanger</p>
+        <h1>Des finitions <em class="accent">à la française</em> pour vos biens au Maroc.</h1>
+        <p class="lead">Peinture, joints, carrelage, salles de bain… Jean rénove vos logements en location avec <strong>{site.experienceYears} ans d’exigence française</strong>. Même quand vous êtes à 2 000 km.</p>
+        <div class="btn-row">
+          <a class="btn" href="/contact/">Décrire mon projet <Icon name="arrow" /></a>
+          <a class="btn btn--ghost" href={whatsappLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> Écrire sur WhatsApp</a>
+        </div>
+        <ul class="hero__trust">
+          <li><strong>{site.experienceYears} ans</strong> de métier en France</li>
+          <li><strong>Devis gratuit</strong> et détaillé</li>
+          <li><strong>Suivi photo</strong> à distance</li>
+        </ul>
+      </div>
+      <div class="hero__media">
+        <div class="photo hero__photo"><Picture name="hero" ratio={1.15} eager sizes="(min-width: 900px) 46vw, 100vw" /></div>
+        <figure class="hero__quote">
+          <blockquote>« Un travail bien fait, c’est un travail qu’on ne remarque pas. On remarque seulement que tout est beau. »</blockquote>
+          <figcaption>— Jean, fondateur</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSTAT -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Le constat</p>
+        <h2>Vous l’avez sûrement vécu : au Maroc,<br class="br-lg" /> les finitions font souvent défaut.</h2>
+        <p class="lead">Beaucoup de logements de la côte sont rénovés vite, mal, et à refaire au bout d’une saison. Pour un propriétaire qui loue, c’est de l’argent perdu deux fois.</p>
+      </div>
+      <div class="grid grid-4">
+        {pains.map((p) => (
+          <article class="card pain reveal">
+            <span class="pain__icon"><Icon name={p.icon} size={26} /></span>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMESSE -->
+  <section class="section">
+    <div class="container split">
+      <div class="photo promise__photo reveal"><Picture name="tools" ratio={1.1} /></div>
+      <div class="reveal">
+        <p class="eyebrow">La différence Jean</p>
+        <h2>L’exigence d’un artisan français, <em class="accent">sur place</em>.</h2>
+        <p class="lead">Façadier pendant {site.experienceYears} ans en France, Jean a appris le métier là où l’à-peu-près ne passe pas. Aujourd’hui installé à {site.city}, il applique les mêmes règles de l’art à chacun de vos chantiers.</p>
+        <ol class="method">
+          {method.map((m, i) => (
+            <li><span class="method__n">0{i + 1}</span><div><h3>{m.title}</h3><p>{m.text}</p></div></li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESTATIONS -->
+  <section class="section section--alt" id="prestations">
+    <div class="container">
+      <div class="section-head services-head reveal">
+        <div>
+          <p class="eyebrow">Prestations</p>
+          <h2>Un seul artisan, <em class="accent">tous les corps de métier</em> de la finition.</h2>
+        </div>
+        <a class="link-arrow" href="/prestations/">Toutes les prestations</a>
+      </div>
+      <div class="grid grid-3">
+        {services.map((s) => (
+          <a class="svc reveal" href={`/prestations/${s.slug}/`}>
+            <div class="svc__img"><Picture name={s.image} ratio={0.62} sizes="(min-width: 900px) 33vw, 100vw" /></div>
+            <div class="svc__body">
+              <h3>{s.title}</h3>
+              <p>{s.short}</p>
+              <span class="link-arrow">En savoir plus</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION / AIRBNB -->
+  <section class="section section--dark airbnb">
+    <div class="container">
+      <div class="split">
+        <div class="reveal">
+          <p class="eyebrow">Propriétaires en location courte & longue durée</p>
+          <h2>Votre logement doit ressembler à ses photos.<br /><em class="accent-light">Toute l’année.</em></h2>
+          <p class="lead">Airbnb, Booking, location saisonnière ou à l’année : vos voyageurs, souvent de la diaspora, comparent avec les standards européens. Jean a conçu des formules pensées pour les propriétaires qui louent.</p>
+          <div class="btn-row">
+            <a class="btn btn--light" href="/location-airbnb/">Découvrir les formules</a>
+            <a class="btn btn--outline-light" href="/contact/">Demander un devis</a>
+          </div>
+        </div>
+        <div class="photo reveal airbnb__photo"><Picture name="airbnb" ratio={0.8} /></div>
+      </div>
+      <div class="grid grid-4 offres">
+        {offres.map((o) => (
+          <a class:list={['offre', 'reveal', { 'offre--hl': o.highlight }]} href={`/location-airbnb/#${o.slug}`}>
+            {o.highlight && <span class="offre__tag">La plus demandée</span>}
+            <h3>{o.name}</h3>
+            <p>{o.tagline}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- A DISTANCE -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Vous vivez à l’étranger ?</p>
+        <h2>Vos travaux bien faits,<br class="br-lg" /> <em class="accent">même sans être là.</em></h2>
+        <p class="lead">C’est la hantise de nombreux propriétaires installés en France : payer pour des travaux qu’on ne peut pas contrôler. Avec Jean, vous avez des yeux de confiance sur place.</p>
+      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li class="step reveal">
+            <span class="step__icon"><Icon name={s.icon} size={26} /></span>
+            <span class="step__n">Étape {i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="supervise reveal">
+        <div class="supervise__icon"><Icon name="users" size={34} /></div>
+        <div>
+          <h3>Vous avez déjà une équipe sur place ? Jean la supervise.</h3>
+          <p>Contrôle qualité à chaque étape, formation de vos artisans aux techniques européennes, validation avant paiement. Vos ouvriers travaillent, Jean veille à ce que ce soit bien fait.</p>
+        </div>
+        <a class="btn" href="/proprietaires-a-distance/">Comment ça marche</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- JEAN -->
+  <section class="section section--alt">
+    <div class="container split split--reverse">
+      <div class="photo jean__photo reveal">
+        <Picture name="jean" ratio={1.2} />
+        <span class="jean__badge"><strong>{site.experienceYears}</strong> ans<br />d’expérience</span>
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">Qui est Jean ?</p>
+        <h2>Un perfectionniste. <em class="accent">Assumé.</em></h2>
+        <p class="lead">Trente ans de façades, d’enduits, de peinture et de carrelage en France. Des milliers de mètres carrés où chaque angle, chaque joint, chaque raccord a été vérifié.</p>
+        <p>Installé à {site.city}, Jean a fait un constat simple : les propriétaires de la région, et notamment ceux qui vivent à l’étranger, ne trouvent pas d’artisan capable de garantir des finitions dignes de ce nom. Il a décidé d’y remédier.</p>
+        <blockquote class="big-quote">« Je ne sais pas faire “à peu près”. Soit c’est bien fait, soit je le refais. »</blockquote>
+        <a class="link-arrow" href="/a-propos/">Découvrir le parcours de Jean</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZONES -->
+  <section class="section">
+    <div class="container split">
+      <div class="reveal">
+        <p class="eyebrow">Zones d’intervention</p>
+        <h2>De Martil à Tanger, sur toute la côte nord.</h2>
+        <p class="lead">Basé à {site.city}, Jean intervient rapidement dans toute la région Tanger-Tétouan, là où se concentrent les résidences secondaires et les logements en location.</p>
+        <ul class="zones">
+          {zones.map((z) => (
+            <li><Icon name="pin" size={18} /><div><strong>{z.name}</strong><span>{z.note}</span></div></li>
+          ))}
+        </ul>
+        <a class="link-arrow" href="/zones-intervention/">Voir les zones d’intervention</a>
+      </div>
+      <div class="zones__media reveal">
+        <div class="photo"><Picture name="tetouan" ratio={0.75} /></div>
+        <div class="photo"><Picture name="tanger" ratio={0.75} /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--alt">
+    <div class="container narrow">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Questions fréquentes</p>
+        <h2>Vous vous demandez sûrement…</h2>
+      </div>
+      <div class="faq">
+        {homeFaq.map((f) => (
+          <details><summary>{f.q}</summary><p>{f.a}</p></details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-block: clamp(36px, 6vw, 80px) clamp(56px, 8vw, 110px); overflow: hidden; }
+  .hero__in { display: grid; gap: clamp(40px, 6vw, 72px); align-items: center; }
+  @media (min-width: 960px) { .hero__in { grid-template-columns: 1.05fr 0.95fr; } }
+  .hero h1 { margin-bottom: 22px; }
+  .hero .lead { margin-bottom: 32px; }
+  .hero__trust { list-style: none; padding: 0; margin: 36px 0 0; display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: .92rem; color: var(--muted); }
+  .hero__trust li { display: flex; align-items: center; gap: 8px; }
+  .hero__trust li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--terra); }
+  .hero__trust strong { color: var(--ink); }
+  .hero__media { position: relative; }
+  .hero__photo { aspect-ratio: 1 / 1.08; box-shadow: var(--shadow-lg); }
+  .hero__quote { position: absolute; left: -28px; bottom: 32px; max-width: 320px; margin: 0; background: #fff; padding: 22px 24px; border-radius: var(--radius); box-shadow: var(--shadow-lg); }
+  .hero__quote blockquote { margin: 0 0 8px; font: italic 400 1.04rem/1.45 var(--serif); }
+  .hero__quote figcaption { font-size: .82rem; color: var(--terra); font-weight: 600; }
+  @media (max-width: 959px) { .hero__quote { position: relative; left: auto; bottom: auto; margin: -48px 16px 0; max-width: none; } }
+  .br-lg { display: none; }
+  @media (min-width: 900px) { .br-lg { display: inline; } }
+
+  .pain h3 { font-size: 1.18rem; margin-top: 18px; }
+  .pain p { color: var(--muted); margin: 0; font-size: .96rem; }
+  .pain__icon { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--terra-soft); color: var(--terra); }
+
+  .promise__photo { aspect-ratio: 1 / 1.05; }
+  .method { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 22px; }
+  .method li { display: flex; gap: 18px; }
+  .method__n { font: italic 500 1.4rem/1 var(--serif); color: var(--terra); min-width: 34px; padding-top: 3px; }
+  .method h3 { font-size: 1.12rem; margin-bottom: 4px; }
+  .method p { margin: 0; color: var(--muted); font-size: .96rem; }
+
+  .services-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px; }
+  .services-head h2 { max-width: 20ch; margin: 0; }
+  .svc { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; transition: transform .25s, box-shadow .25s; }
+  .svc:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .svc__img { aspect-ratio: 16 / 10; overflow: hidden; background: var(--sand); }
+  .svc__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+  .svc:hover .svc__img :global(img) { transform: scale(1.05); }
+  .svc__body { padding: 22px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+  .svc__body h3 { font-size: 1.22rem; }
+  .svc__body p { color: var(--muted); font-size: .95rem; flex: 1; }
+
+  .airbnb .accent-light { color: #e5a27f; }
+  .airbnb__photo { aspect-ratio: 1 / 0.85; }
+  .offres { margin-top: clamp(40px, 6vw, 64px); }
+  .offre { position: relative; display: block; padding: 26px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,.16); text-decoration: none; color: #c3ced8; transition: background .2s, border-color .2s; }
+  .offre:hover { background: var(--navy-2); border-color: rgba(255,255,255,.3); }
+  .offre h3 { font-size: 1.2rem; margin-bottom: 6px; }
+  .offre p { margin: 0; font-size: .94rem; }
+  .offre--hl { border-color: #e5a27f; }
+  .offre__tag { position: absolute; top: -12px; left: 22px; background: var(--terra); color: #fff; font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; }
+
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); counter-reset: s; }
+  .step { position: relative; padding: 26px 22px; border-radius: var(--radius-lg); background: #fff; border: 1px solid var(--line); }
+  .step__icon { width: 50px; height: 50px; border-radius: 14px; display: grid; place-items: center; background: var(--navy); color: #fff; margin-bottom: 18px; }
+  .step__n { display: block; font-size: .74rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--terra); margin-bottom: 6px; }
+  .step h3 { font-size: 1.1rem; }
+  .step p { margin: 0; color: var(--muted); font-size: .94rem; }
+  .supervise { margin-top: 28px; display: grid; gap: 20px; align-items: center; padding: clamp(24px, 3vw, 36px); border-radius: var(--radius-lg); background: var(--terra-soft); }
+  @media (min-width: 860px) { .supervise { grid-template-columns: auto 1fr auto; gap: 28px; } }
+  .supervise__icon { width: 68px; height: 68px; border-radius: 50%; background: #fff; display: grid; place-items: center; color: var(--terra); }
+  .supervise h3 { margin-bottom: 6px; }
+  .supervise p { margin: 0; color: var(--ink-2); }
+
+  .jean__photo { aspect-ratio: 1 / 1.15; }
+  .jean__badge { position: absolute; right: 18px; bottom: 18px; background: var(--terra); color: #fff; padding: 16px 20px; border-radius: var(--radius); font-size: .86rem; line-height: 1.25; text-align: center; }
+  .jean__badge strong { display: block; font: 500 2.4rem/1 var(--serif); }
+  .big-quote { margin: 28px 0; padding-left: 22px; border-left: 3px solid var(--terra); font: italic 400 1.35rem/1.4 var(--serif); color: var(--ink); }
+
+  .zones { list-style: none; padding: 0; margin: 28px 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+  .zones li { display: flex; gap: 12px; align-items: flex-start; }
+  .zones :global(svg) { color: var(--terra); flex: none; margin-top: 4px; }
+  .zones strong { display: block; }
+  .zones span { font-size: .88rem; color: var(--muted); }
+  .zones__media { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .zones__media .photo { aspect-ratio: 3 / 4; }
+  .zones__media .photo:last-child { margin-top: 48px; }
+</style>

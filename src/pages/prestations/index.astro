@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Picture from '../../components/Picture.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { services } from '../../data/services';
+---
+<Base
+  title="Prestations de rénovation : peinture, joints, carrelage, plomberie"
+  description="Toutes les prestations de Jean Rénovation à Martil, Tétouan et Tanger : peinture, joints, carrelage, plomberie, salle de bain, enduits, façade, étanchéité, électricité, menuiserie, remise en état."
+  image="painting"
+>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">/</span>Prestations</nav>
+      <p class="eyebrow">Prestations</p>
+      <h1>Tout ce qui fait<br /><em class="accent">la qualité d’un logement.</em></h1>
+      <p class="lead">Peinture, joints, carrelage, plomberie, salles de bain… Jean maîtrise l’ensemble des travaux de finition et de second œuvre. Un seul artisan, un seul interlocuteur, un seul niveau d’exigence.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container list">
+      {services.map((s, i) => (
+        <article class:list={['row', 'reveal', { 'row--rev': i % 2 === 1 }]} id={s.slug}>
+          <a class="photo row__img" href={`/prestations/${s.slug}/`} tabindex="-1" aria-hidden="true"><Picture name={s.image} ratio={0.68} /></a>
+          <div class="row__txt">
+            <span class="row__icon"><Icon name={s.icon} size={24} /></span>
+            <h2><a href={`/prestations/${s.slug}/`}>{s.title}</a></h2>
+            <p class="row__hook">{s.hook}</p>
+            <p>{s.short}</p>
+            <ul class="checklist">
+              {s.includes.slice(0, 3).map((it) => <li>{it}</li>)}
+            </ul>
+            <a class="link-arrow" href={`/prestations/${s.slug}/`}>Détails de la prestation</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .list { display: grid; gap: clamp(56px, 8vw, 96px); }
+  .row { display: grid; gap: clamp(24px, 5vw, 64px); align-items: center; }
+  @media (min-width: 860px) { .row { grid-template-columns: 1fr 1fr; } .row--rev .row__img { order: 2; } }
+  .row__img { aspect-ratio: 4 / 3; display: block; }
+  .row__icon { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--terra-soft); color: var(--terra); margin-bottom: 16px; }
+  .row h2 { font-size: clamp(1.6rem, 2.8vw, 2.2rem); }
+  .row h2 a { text-decoration: none; }
+  .row__hook { font: italic 400 1.15rem/1.4 var(--serif); color: var(--terra); }
+  .row .checklist { margin: 20px 0 24px; }
+</style>

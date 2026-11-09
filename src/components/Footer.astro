@@ -1,0 +1,80 @@
+---
+import { site, zones, whatsappLink, telLink } from '../config/site';
+import { services } from '../data/services';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="ftr">
+  <div class="container">
+    <div class="ftr__cta">
+      <div>
+        <p class="ftr__kicker">Votre bien mérite mieux qu’un travail bâclé.</p>
+        <h2>Parlons de votre projet.</h2>
+      </div>
+      <div class="btn-row">
+        <a class="btn" href="/contact/">Décrire mon projet</a>
+        <a class="btn btn--wa" href={whatsappLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="ftr__grid">
+      <div>
+        <p class="ftr__brand">{site.name}</p>
+        <p class="ftr__desc">Artisan rénovateur français installé à {site.city}. {site.experienceYears} ans d’expérience, des finitions aux standards européens pour vos logements au Maroc.</p>
+      </div>
+      <div>
+        <p class="ftr__title">Prestations</p>
+        <ul>
+          {services.map((s) => <li><a href={`/prestations/${s.slug}/`}>{s.title}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="ftr__title">Le site</p>
+        <ul>
+          <li><a href="/location-airbnb/">Offres location & Airbnb</a></li>
+          <li><a href="/proprietaires-a-distance/">Propriétaires à distance</a></li>
+          <li><a href="/zones-intervention/">Zones d’intervention</a></li>
+          <li><a href="/a-propos/">Qui est Jean ?</a></li>
+          <li><a href="/blog/">Conseils & blog</a></li>
+          <li><a href="/contact/">Devis & contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ftr__title">Contact</p>
+        <ul class="ftr__contact">
+          <li><Icon name="whatsapp" size={18} /><a href={whatsappLink()} target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><Icon name="phone" size={18} /><a href={telLink(site.phoneMaroc)}>{site.phoneMaroc} <small>(Maroc)</small></a></li>
+          <li><Icon name="phone" size={18} /><a href={telLink(site.phoneFrance)}>{site.phoneFrance} <small>(France)</small></a></li>
+          <li><Icon name="mail" size={18} /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><Icon name="pin" size={18} /><span>{zones.map((z) => z.name).join(' · ')}</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ftr__bottom">
+      <p>© {year} {site.name} — Rénovation & finitions à {site.city}, Tétouan et Tanger.</p>
+      <p><a href="/mentions-legales/">Mentions légales</a> · Photos d’illustration : Unsplash</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--navy); color: #c3ced8; padding-top: clamp(56px, 8vw, 96px); font-size: .95rem; }
+  .ftr a { color: #e9eef2; text-decoration: none; }
+  .ftr a:hover { color: #e5a27f; }
+  .ftr__cta { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px; padding-bottom: clamp(40px, 6vw, 64px); border-bottom: 1px solid rgba(255,255,255,.12); }
+  .ftr__cta h2 { color: #fff; margin: 0; font-size: clamp(2rem, 4.4vw, 3.4rem); }
+  .ftr__kicker { color: #e5a27f; font-family: var(--serif); font-style: italic; font-size: 1.15rem; margin-bottom: 6px; }
+  .ftr__grid { display: grid; gap: 36px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); padding-block: clamp(40px, 6vw, 64px); }
+  .ftr__brand { font: 500 1.5rem/1.2 var(--serif); color: #fff; margin-bottom: 10px; }
+  .ftr__desc { max-width: 34ch; }
+  .ftr__title { font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; color: #8fa3b5; font-weight: 600; margin-bottom: 14px; }
+  .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  .ftr__contact li { display: flex; gap: 10px; align-items: flex-start; }
+  .ftr__contact :global(svg) { flex: none; margin-top: 3px; color: #e5a27f; }
+  .ftr__contact small { color: #8fa3b5; }
+  .ftr__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; border-top: 1px solid rgba(255,255,255,.12); padding-block: 24px 110px; font-size: .84rem; color: #8fa3b5; }
+  .ftr__bottom p { margin: 0; }
+  .ftr__bottom a { color: #8fa3b5; text-decoration: underline; }
+  @media (min-width: 700px) { .ftr__bottom { padding-bottom: 28px; } }
+</style>

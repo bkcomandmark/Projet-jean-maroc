@@ -1,0 +1,27 @@
+---
+import { whatsappLink } from '../config/site';
+import Icon from './Icon.astro';
+---
+<a class="wa-float" href={whatsappLink()} target="_blank" rel="noopener" aria-label="Écrire à Jean sur WhatsApp">
+  <Icon name="whatsapp" size={30} />
+  <span class="wa-float__label">Une question ? <strong>WhatsApp</strong></span>
+</a>
+
+<div class="mobile-bar">
+  <a class="btn" href="/contact/">Devis gratuit</a>
+  <a class="btn btn--wa" href={whatsappLink()} target="_blank" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
+</div>
+
+<style>
+  .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 60; display: flex; align-items: center; gap: 12px; height: 62px; padding: 0 22px 0 16px; border-radius: 999px; background: var(--wa); color: #fff; text-decoration: none; box-shadow: 0 12px 30px rgba(31, 168, 85, .38); transition: transform .2s; }
+  .wa-float:hover { transform: translateY(-2px) scale(1.02); }
+  .wa-float__label { font-size: .92rem; line-height: 1.2; }
+  .wa-float::before { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgba(31,168,85,.5); animation: wa-pulse 2.6s infinite; }
+  @keyframes wa-pulse { 0% { box-shadow: 0 0 0 0 rgba(31,168,85,.45); } 70% { box-shadow: 0 0 0 16px rgba(31,168,85,0); } 100% { box-shadow: 0 0 0 0 rgba(31,168,85,0); } }
+  .mobile-bar { display: none; }
+  @media (max-width: 699px) {
+    .wa-float { display: none; }
+    .mobile-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(250,247,242,.96); backdrop-filter: blur(10px); border-top: 1px solid var(--line); }
+    .mobile-bar .btn { min-height: 48px; padding: 0 12px; }
+  }
+</style>
