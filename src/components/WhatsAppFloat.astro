@@ -23,5 +23,33 @@ import Icon from './Icon.astro';
     .wa-float { display: none; }
     .mobile-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(250,247,242,.96); backdrop-filter: blur(10px); border-top: 1px solid var(--line); }
     .mobile-bar .btn { min-height: 48px; padding: 0 12px; }
+    /* Si l'hébergeur ajoute un badge flottant en bas de l'écran, la barre se place au-dessus */
+    .mobile-bar.is-lifted { bottom: var(--lift, 64px); background: transparent; border-top: 0; backdrop-filter: none; padding-bottom: 6px; }
+    .mobile-bar.is-lifted .btn { box-shadow: 0 8px 22px rgba(15, 42, 63, .22); }
   }
+  @media (min-width: 700px) { .wa-float.is-lifted { bottom: calc(var(--lift, 64px) + 8px); } }
 </style>
+
+<script>
+  // Détecte un élément fixe en bas d'écran ajouté par l'hébergeur (ex. badge Netlify)
+  const ours = (el: Element) => el.matches('.mobile-bar, .wa-float, header, main, footer, script, style, a.skip-link');
+  const check = () => {
+    let lift = 0;
+    for (const el of Array.from(document.body.children)) {
+      if (ours(el)) continue;
+      const nodes = [el, ...(el.shadowRoot ? Array.from(el.shadowRoot.children) : []), ...Array.from(el.querySelectorAll('*')).slice(0, 30)];
+      for (const n of nodes) {
+        const cs = getComputedStyle(n);
+        if (cs.position !== 'fixed' || cs.display === 'none' || cs.visibility === 'hidden') continue;
+        const r = n.getBoundingClientRect();
+        if (r.height > 0 && r.height < 120 && window.innerHeight - r.bottom < 40) lift = Math.max(lift, window.innerHeight - r.top + 6);
+      }
+    }
+    document.querySelectorAll<HTMLElement>('.mobile-bar, .wa-float').forEach((b) => {
+      b.classList.toggle('is-lifted', lift > 0);
+      if (lift) b.style.setProperty('--lift', `${Math.round(lift)}px`);
+    });
+  };
+  window.addEventListener('load', () => { check(); setTimeout(check, 1500); setTimeout(check, 4000); });
+  window.addEventListener('resize', check);
+</script>
